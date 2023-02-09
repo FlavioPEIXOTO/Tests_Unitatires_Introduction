@@ -1,0 +1,105 @@
+import unittest
+from exercice_2 import *
+
+class TestBook(unittest.TestCase):
+    
+    def setUp(self):
+        self.book = Book("Le crime de l'Orient Express", "Agatha Christie")
+        self.wrong_book = Book("Un petit boulot", "Iain Levison")
+
+    def test_book_init(self):
+        self.assertRaises(TypeError, Book, "Le Crime de l'Orient Express")
+        self.assertRaises(TypeError, Book)
+        self.assertRaises(TypeError, Book, "Le crime de l'Orient Express", "Agatha Christie", "Troisieme argument en trop")
+
+    def test_check_out(self):
+        self.book.check_out()
+        self.assertTrue(self.book.is_checked_out)
+
+        self.assertRaises(TypeError, self.wrong_book.check_out, "Parametre en trop")
+
+    def test_check_in(self):
+        self.book.check_out()
+        self.assertTrue(self.book.is_checked_out)
+        self.book.check_in()
+        self.assertFalse(self.book.is_checked_out)
+
+        self.assertRaises(TypeError, self.wrong_book.check_in, "Parametre en trop")
+
+
+class TestLibrary(unittest.TestCase):
+    def setUp(self):
+        self.library = Library()
+        self.first_book = Book("Le crime de l'Orient Express", "Agatha Christie")
+        self.library.add_book(self.first_book)
+
+        self.second_book = Book("Un petit boulot", "Iain Levisson")
+        self.library.add_book(self.second_book)
+
+    def test_library_init(self):
+        #Verify that you cannot create a library giving a parameter
+        self.assertRaises(TypeError, Library, "Parametre en trop")
+
+    def test_add_book(self):
+        
+        #Verify that books are well added to library
+        self.assertIn(self.first_book, self.library.books)
+        self.assertIn(self.second_book, self.library.books)
+
+        #Verify that all books initialized has been well added to library list of books
+        self.assertEqual(len(self.library.books), 2)
+
+    def test_check_out_book(self):
+        #Verify the book can be check out by title from library
+        self.library.check_out_book("Le crime de l'Orient Express")
+        self.assertTrue(self.first_book.is_checked_out)
+
+        #Verify the book cannot be check out by author name from library
+        self.library.check_out_book("Agatha Christie")
+        self.assertFalse(self.first_book.is_checked_out)
+
+    def test_check_in_book(self):
+        #Verify the book can be check in after a check out using the title from the library
+        self.library.check_out_book("Le crime de l'Orient Express")
+        self.assertTrue(self.first_book.is_checked_out)
+        self.library.check_in_book("Le crime de l'Orient Express")
+        self.assertFalse(self.first_book.is_checked_out)
+
+        #Verify the book cannot be check in by author name from the library
+        self.library.check_out_book("Un petit boulot")
+        self.assertTrue(self.second_book.is_checked_out)
+        self.library.check_in_book("Iain Levison")
+        self.assertTrue(self.second_book.is_checked_out)
+
+
+class TestClient(unittest.TestCase):
+
+    def setUp(self):
+        self.library = Library()
+        self.first_book = Book("Le crime de l'Orient Express", "Agatha Christie")
+        self.library.add_book(self.first_book)
+        self.second_book = Book("Un petit boulot", "Iain Levison")
+        self.library.add_book(self.second_book)
+        self.client = Client("John Doe")
+
+    def test_client_init(self):
+        #Verify error case on creating clients with too much or less arguments
+        self.assertRaises(TypeError, Client, "Pierre Dubois", "Michel Dubois")
+        self.assertRaises(TypeError, Client)
+
+        #Verify that other variable type can be used to create user without making bug
+        other_client = Client(1)
+        self.assertEqual(other_client.name, "1")
+
+    def test_check_out_book(self):
+        self.client.check_out_book(self.library, "To Kill a Mockingbird")
+        self.assertIn(self.book1, self.client.checked_out_books)
+
+    def test_check_in_book(self):
+        self.client.check_out_book(self.library, "To Kill a Mockingbird")
+        self.client.check_in_book(self.library, "To Kill a Mockingbird")
+        self.assertNotIn(self.book1, self.client.checked_out_books)
+
+
+if __name__ == '__main__':
+    unittest.main()
