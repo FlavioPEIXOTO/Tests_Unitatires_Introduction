@@ -55,8 +55,8 @@ class TestLibrary(unittest.TestCase):
         self.assertTrue(self.first_book.is_checked_out)
 
         #Verify the book cannot be check out by author name from library
-        self.library.check_out_book("Agatha Christie")
-        self.assertFalse(self.first_book.is_checked_out)
+        self.library.check_out_book("Iain Levison")
+        self.assertFalse(self.second_book.is_checked_out)
 
     def test_check_in_book(self):
         #Verify the book can be check in after a check out using the title from the library
@@ -78,8 +78,10 @@ class TestClient(unittest.TestCase):
         self.library = Library()
         self.first_book = Book("Le crime de l'Orient Express", "Agatha Christie")
         self.library.add_book(self.first_book)
+
         self.second_book = Book("Un petit boulot", "Iain Levison")
         self.library.add_book(self.second_book)
+
         self.client = Client("John Doe")
 
     def test_client_init(self):
@@ -89,17 +91,29 @@ class TestClient(unittest.TestCase):
 
         #Verify that other variable type can be used to create user without making bug
         other_client = Client(1)
-        self.assertEqual(other_client.name, "1")
+        self.assertEqual(other_client.name, 1)
 
     def test_check_out_book(self):
-        self.client.check_out_book(self.library, "To Kill a Mockingbird")
-        self.assertIn(self.book1, self.client.checked_out_books)
+        #Verify if the client has well added a book into his check out book list
+        self.client.check_out_book(self.library, "Le crime de l'Orient Express")
+        self.assertIn(self.first_book, self.client.checked_out_books)
+
+        #Verify that no book has been added to the client check out book list by the book author name
+        self.client.check_out_book(self.library, "Iain Levison")
+        self.assertNotIn(self.second_book, self.client.checked_out_books)
 
     def test_check_in_book(self):
-        self.client.check_out_book(self.library, "To Kill a Mockingbird")
-        self.client.check_in_book(self.library, "To Kill a Mockingbird")
-        self.assertNotIn(self.book1, self.client.checked_out_books)
 
+        #Verify that a client can check in a book that as been check out
+        self.client.check_out_book(self.library, "Le crime de l'Orient Express")
+        self.assertIn(self.first_book, self.client.checked_out_books)
+        self.client.check_in_book(self.library, "Le crime de l'Orient Express")
+        self.assertNotIn(self.second_book, self.client.checked_out_books)
+
+        #Verify that a client cannot check in a book that he do not have without check in another one
+        self.client.check_out_book(self.library, "Le crime de l'Orient Express")
+        self.client.check_in_book(self.library, "Un petit boulot")
+        self.assertIn(self.first_book, self.client.checked_out_books)
 
 if __name__ == '__main__':
     unittest.main()

@@ -3,7 +3,7 @@ import unittest
 class Calculator:
     def add(x, y):
         #Added integer validation before returning add function value
-        if(isinstance(x, int) and isinstance(y, int)):
+        if(isinstance(x, (int, float)) and isinstance(y, (int, float))):
             return x + y
         else:
             return "Wrong parameters"
@@ -11,21 +11,21 @@ class Calculator:
     
     def subtract(x, y):
         #Added integer validation before returning substract function value
-        if(isinstance(x, int) and isinstance(y, int)):
+        if(isinstance(x, (int, float)) and isinstance(y, (int, float))):
             return x - y
         else:
             return "Wrong parameters"
     
     def multiply(x, y):
         #Added integer validation before returning multiply function value
-        if(isinstance(x, int) and isinstance(y, int)):
+        if(isinstance(x, (int, float)) and isinstance(y, (int, float))):
             return x * y
         else:
             return "Wrong parameters"
     
     def divide(x, y):
         #Added integer validation before returning divide function value
-        if(isinstance(x, int) and isinstance(y, int)):
+        if(isinstance(x, (int, float)) and isinstance(y, (int, float))):
             return x / y
         else:
             return "Wrong parameters"
@@ -38,7 +38,7 @@ class Calculator:
 
 def square_root(x):
     #Added integer validation before returning square root function value
-    if(isinstance(x, int)) :
+    if(isinstance(x, (int, float))) :
         if x == 0 or x == 1:
             return x
         val = x
@@ -66,8 +66,8 @@ def calculate(operation, x, y):
         result = Calculator.square_root(x)
     return result
 
-operation = input("Enter the operation you would like to perform (add, subtract, multiply, divide, square_root, power): ")
+'''operation = input("Enter the operation you would like to perform (add, subtract, multiply, divide, square_root, power): ")
 num1 = int(input("Enter the first number : "))
 num2 = int(input("Enter the secod number : "))
 
-print(calculate(operation, num1, num2))
+print(calculate(operation, num1, num2))'''

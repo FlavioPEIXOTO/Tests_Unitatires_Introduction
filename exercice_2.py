@@ -58,7 +58,7 @@ class Client:
         print(f"Sorry, {title} is not checked out.")
 
 
-library = Library()
+'''library = Library()
 book1 = Book("To Kill a Mockingbird", "Harper Lee")
 library.add_book(book1)
 book2 = Book("Pride and Prejudice", "Jane Austen")
@@ -69,4 +69,4 @@ client1.check_out_book(library, "To Kill a Mockingbird")
 client1.check_out_book(library, "Pride and Prejudice")
 client2 = Client("Jane Doe")
 client2.check_out_book(library, "To Kill a Mockingbird")
-client1.check_in_book(library, "To Kill a Mockingbird")
+client1.check_in_book(library, "To Kill a Mockingbird")'''
