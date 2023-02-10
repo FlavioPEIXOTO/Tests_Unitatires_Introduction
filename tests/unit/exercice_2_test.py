@@ -8,17 +8,21 @@ class TestBook(unittest.TestCase):
         self.second_book = Book("Un petit boulot", "Iain Levison")
 
     def test_book_init(self):
+        #Verify a book cannot be create with less or more than 2 params
         self.assertRaises(TypeError, Book, "Le Crime de l'Orient Express")
         self.assertRaises(TypeError, Book)
         self.assertRaises(TypeError, Book, "Le crime de l'Orient Express", "Agatha Christie", "Troisieme argument en trop")
 
     def test_check_out(self):
+        #Verify that a book can be check out
         self.book.check_out()
         self.assertTrue(self.book.is_checked_out)
 
+        #Verify that we can't check out a book with one param in more
         self.assertRaises(TypeError, self.second_book.check_out, "Parametre en trop")
 
     def test_check_in(self):
+        #Verify that a book check in function after been check out modify book state value
         self.book.check_out()
         self.assertTrue(self.book.is_checked_out)
         self.book.check_in()
@@ -39,6 +43,12 @@ class TestLibrary(unittest.TestCase):
     def test_library_init(self):
         #Verify that you cannot create a library giving a parameter
         self.assertRaises(TypeError, Library, "Parametre en trop")
+
+        #Verify that we can add mutliple books into one array
+        for i in range(0,500):
+            self.third_book = Book("One piece", "Eichiro Oda")
+            self.library.add_book(self.third_book)
+        self.assertEqual(len(self.library.books), 502)
 
     def test_add_book(self):
         

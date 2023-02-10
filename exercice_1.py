@@ -99,10 +99,10 @@ def calculate(operation, x, y):
         result = calculator.square_root(x)
     return result
 
-operation = input("Enter the operation you would like to perform (add, subtract, multiply, divide, square_root, power): ")
+"""operation = input("Enter the operation you would like to perform (add, subtract, multiply, divide, square_root, power): ")
 num1 = int(input("Enter the first number : "))
 num2 = int(input("Enter the secod number : "))
 
 print(calculate(operation, num1, num2))
 
-num3 = input("Program continues ?")
+num3 = input("Program continues ?")"""
