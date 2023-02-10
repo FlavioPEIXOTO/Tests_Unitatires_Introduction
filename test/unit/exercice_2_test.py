@@ -5,7 +5,7 @@ class TestBook(unittest.TestCase):
     
     def setUp(self):
         self.book = Book("Le crime de l'Orient Express", "Agatha Christie")
-        self.wrong_book = Book("Un petit boulot", "Iain Levison")
+        self.second_book = Book("Un petit boulot", "Iain Levison")
 
     def test_book_init(self):
         self.assertRaises(TypeError, Book, "Le Crime de l'Orient Express")
@@ -16,7 +16,7 @@ class TestBook(unittest.TestCase):
         self.book.check_out()
         self.assertTrue(self.book.is_checked_out)
 
-        self.assertRaises(TypeError, self.wrong_book.check_out, "Parametre en trop")
+        self.assertRaises(TypeError, self.second_book.check_out, "Parametre en trop")
 
     def test_check_in(self):
         self.book.check_out()
@@ -24,7 +24,7 @@ class TestBook(unittest.TestCase):
         self.book.check_in()
         self.assertFalse(self.book.is_checked_out)
 
-        self.assertRaises(TypeError, self.wrong_book.check_in, "Parametre en trop")
+        self.assertRaises(TypeError, self.second_book.check_in, "Parametre en trop")
 
 
 class TestLibrary(unittest.TestCase):
